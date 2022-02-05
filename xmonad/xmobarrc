@@ -2,8 +2,8 @@ Config {
 
    -- appearance
      font =         "xft:Source Code Pro:size=9:bold:antialias=true"
-   , bgColor =      "black"
-   , fgColor =      "#9900cc"
+   , bgColor =      "#282c34"
+   , fgColor =      "#ff6c6b"
    , position =     Top
    , border =       BottomB
    , borderColor =  "#646464"
@@ -40,30 +40,30 @@ Config {
         -- weather monitor
         [ 
         -- network activity monitor (dynamic interface resolution)
-        Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
+        Run DynNetwork     [ "--template" , "<dev> ( UP <tx>kB/s | DOWN <rx>kB/s)"
                              , "--Low"      , "1000"       -- units: B/s
                              , "--High"     , "5000"       -- units: B/s
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
+                             , "--low"      , "#2dbf1d"
+                             , "--normal"   , "#a8c41b"
+                             , "--high"     , "#9e1b09"
                              ] 10
 
         -- cpu activity monitor
-        , Run MultiCpu       [ "--template" , "Cpu: <total0>%|<total1>%"
-                             , "--Low"      , "50"         -- units: %
-                             , "--High"     , "85"         -- units: %
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
+        , Run MultiCpu       [ "--template" , " Core 1 <total0>% | Core 2 <total1>%"
+                             , "--Low"      , "20"         -- units: %
+                             , "--High"     , "50"         -- units: %
+                             , "--low"      , "#2dbf1d"
+                             , "--normal"   , "#a8c41b"
+                             , "--high"     , "#9e1b09"
                              ] 10
 
         -- memory usage monitor
-        , Run Memory         [ "--template" ,"Mem: <usedratio>%"
+        , Run Memory         [ "--template" ,"RAM Usage <usedratio>%"
                              , "--Low"      , "20"        -- units: %
                              , "--High"     , "90"        -- units: %
-                             , "--low"      , "darkgreen"
-                             , "--normal"   , "darkorange"
-                             , "--high"     , "darkred"
+                             , "--low"      , "#2dbf1d"
+                             , "--normal"   , "#a8c41b"
+                             , "--high"     , "#9e1b09"
                              ] 10
 
         -- time and date indicator 

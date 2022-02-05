@@ -1,0 +1,3 @@
+when you use a non-reparenting window manager,
+set _JAVA_AWT_WM_NONREPARENTING=1 in /etc/profile.d/jre.sh
+Optional dependencies for jre-openjdk

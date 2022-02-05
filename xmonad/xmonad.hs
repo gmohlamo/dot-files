@@ -86,8 +86,8 @@ myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
-myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor = "#ff0000"
+myNormalBorderColor  = "#389480"
+myFocusedBorderColor = "#399bcc"
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -307,8 +307,9 @@ mySpacing = spacingRaw True             -- Only for >1 window
 -- hook by combining it with ewmhDesktopsStartup.
 --
 myStartupHook = do
-    spawnOnce "feh --bg-fill --randomize /home/gladi8r/Images/Wallpapers/* &"
+    spawnOnce "feh --bg-fill --randomize /home/gladwin/Images/Wallpapers/* &"
     spawnOnce "picom &"
+    spawnOnce "/usr/bin/vmware-user &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -316,7 +317,7 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-    xmproc <- spawnPipe "xmobar ~/.config/xmonad/xmobarrc"
+    xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
 
     xmonad $ docks defaults
 
