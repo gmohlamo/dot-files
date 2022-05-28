@@ -33,7 +33,7 @@ import System.IO
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "urxvt"
+myTerminal      = "kitty"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -98,7 +98,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -fn \"Source Code Pro\"` && eval \"exec $exe\"")
+    -- , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -fn \"Source Code Pro\"` && eval \"exec $exe\"")
+    , ((modm,               xK_p     ), spawn "exe=`rofi -show drun`")
 
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
@@ -308,7 +309,6 @@ mySpacing = spacingRaw True             -- Only for >1 window
 --
 myStartupHook = do
     spawnOnce "feh --bg-fill --randomize /home/gladwin/Images/Wallpapers/* &"
-    spawnOnce "picom &"
     spawnOnce "/usr/bin/vmware-user &"
 
 ------------------------------------------------------------------------
