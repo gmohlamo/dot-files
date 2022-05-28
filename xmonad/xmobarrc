@@ -7,7 +7,7 @@ Config {
                         , "xft:Font Awesome 6 Brands:pixelsize=12"
                         ]
    , bgColor =      "#282c34"
-   , fgColor =      "#ff6c6b"
+   , fgColor =      "#326fa8"
    , position =     Top
    , border =       BottomB
    , borderColor =  "#646464"
