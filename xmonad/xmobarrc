@@ -1,7 +1,11 @@
 Config { 
 
    -- appearance
-     font =         "xft:Source Code Pro:size=9:bold:antialias=true"
+     font =         "xft:Source Code Pro:size=9:antialias=true"
+   , additionalFonts =  [ "xft:Mononoki:pixelsize=11:antialias=true:hinting=true"
+                        , "xft:Font Awesome 6 Free Solid:pixelsize=12"
+                        , "xft:Font Awesome 6 Brands:pixelsize=12"
+                        ]
    , bgColor =      "#282c34"
    , fgColor =      "#ff6c6b"
    , position =     Top
@@ -11,7 +15,7 @@ Config {
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = "%multicpu% | %memory% | %dynnetwork% }{  %date% "
+   , template = "%penguin% %multicpu% | %memory% | %dynnetwork% }{  %date% "
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -20,6 +24,8 @@ Config {
    , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
    , pickBroadest =     False   -- choose widest display (multi-monitor)
    , persistent =       True    -- enable/disable hiding (True = disabled)
+
+   , iconRoot = ".xmonad/xpm/"  -- default: "."
 
    -- plugins
    --   Numbers can be automatically colored according to their value. xmobar
@@ -35,12 +41,15 @@ Config {
    --   The --template option controls how the plugin is displayed. Text
    --   color can be set by enclosing in <fc></fc> tags. For more details
    --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
+   -- Use this resource for icons https://fontawesome.com/v5/cheatsheet
+   -- -- just install font awesome or noto; however, I don't think colour
+   -- -- emojies are supported... need to play with it and see 😅
    , commands = 
 
         -- weather monitor
         [ 
         -- network activity monitor (dynamic interface resolution)
-        Run DynNetwork     [ "--template" , "<dev> ( UP <tx>kB/s | DOWN <rx>kB/s)"
+        Run DynNetwork     [ "--template" , " <fn=2>\xf1d8</fn> <dev> (<fn=2>\xf358</fn> <tx>kB/s | <fn=2>\xf35b</fn> <rx>kB/s)"
                              , "--Low"      , "1000"       -- units: B/s
                              , "--High"     , "5000"       -- units: B/s
                              , "--low"      , "#2dbf1d"
@@ -49,7 +58,7 @@ Config {
                              ] 10
 
         -- cpu activity monitor
-        , Run MultiCpu       [ "--template" , " Core 1 <total0>% | Core 2 <total1>%"
+        , Run MultiCpu       [ "--template" , " <fn=2>\xf108</fn> 1 <total0>% | <fn=2>\xf108</fn> 2 <total1>%"
                              , "--Low"      , "20"         -- units: %
                              , "--High"     , "50"         -- units: %
                              , "--low"      , "#2dbf1d"
@@ -69,6 +78,7 @@ Config {
         -- time and date indicator 
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
         , Run Date           "<fc=#ABABAB>%F (%a) %T</fc>" "date" 10
+        , Run Com "echo" ["<fn=2>\xf5fc</fn>"] "penguin" 3600
 
         ]
    }
