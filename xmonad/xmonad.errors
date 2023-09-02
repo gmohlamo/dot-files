@@ -1,8 +1,1 @@
-
-xmonad.hs:330:12: warning: [-Wdeprecations]
-    In the use of ‘defaultConfig’
-    (imported from XMonad, but defined in XMonad.Config):
-    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
-    |
-330 | defaults = defaultConfig {
-    |            ^^^^^^^^^^^^^
+$ ghc --make xmonad.hs -i -ilib -fforce-recomp -main-is main -dynamic -v0 -outputdir /home/gladwin/.xmonad/build-x86_64-linux -o /home/gladwin/.xmonad/xmonad-x86_64-linux

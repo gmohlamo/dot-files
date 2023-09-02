@@ -19,9 +19,12 @@ import XMonad
 import Data.Monoid
 import System.Exit
 
+import System.Taffybar.Support.PagerHints (pagerHints)
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import XMonad.Layout.Spacing
+import XMonad.Hooks.SetWMName
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.NoBorders (smartBorders)
@@ -29,6 +32,7 @@ import XMonad.Util.SpawnOnce
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
+import XMonad.Hooks.EwmhDesktops (ewmh)
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
@@ -82,7 +86,8 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces    = ["\xf120","\xf26b", "\xf02d", "\xf121"] ++ map show [5..9]
+-- myWorkspaces    = ["\xf120","Burp","3","4","5","6","7","8","9"]
 
 -- Border colors for unfocused and focused windows, respectively.
 --
@@ -309,7 +314,11 @@ mySpacing = spacingRaw True             -- Only for >1 window
 --
 myStartupHook = do
     spawnOnce "feh --bg-fill --randomize /home/gladwin/Images/Wallpapers/* &"
+    spawnOnce "xcompmgr -c &"
+    -- spawnOnce "gtk-sni-tray-standalone -w &"
     spawnOnce "/usr/bin/vmware-user &"
+    spawnOnce "vmware-user-suid-wrapper --no--startup-id"
+    setWMName "LG3D"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -317,9 +326,12 @@ myStartupHook = do
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-    xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
-
-    xmonad $ docks defaults
+    -- xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
+    xmproc <- spawnPipe "taffybar"
+    xmonad $ docks
+           $ ewmh
+           $ pagerHints
+           $ defaults { logHook = dynamicLogWithPP $ def { ppOutput = hPutStrLn xmproc } }
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
@@ -327,7 +339,7 @@ main = do
 --
 -- No need to modify this.
 --
-defaults = defaultConfig {
+defaults = def {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,

@@ -1,21 +1,21 @@
 Config { 
 
    -- appearance
-     font =         "xft:Source Code Pro:size=9:antialias=true"
+     font =         "xft:Source Code Pro:size=9:bold:antialias=true"
    , additionalFonts =  [ "xft:Mononoki:pixelsize=11:antialias=true:hinting=true"
                         , "xft:Font Awesome 6 Free Solid:pixelsize=12"
                         , "xft:Font Awesome 6 Brands:pixelsize=12"
                         ]
    , bgColor =      "#282c34"
    , fgColor =      "#326fa8"
-   , position =     Top
+   , position =     TopSize C 100 23
    , border =       BottomB
    , borderColor =  "#646464"
 
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = "%penguin% %multicpu% | %memory% | %dynnetwork% }{  %date% "
+   , template = "%StdinReader% | %penguin% %multicpu% | %memory% | %dynnetwork% }{  %date% "
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -25,7 +25,7 @@ Config {
    , pickBroadest =     False   -- choose widest display (multi-monitor)
    , persistent =       True    -- enable/disable hiding (True = disabled)
 
-   , iconRoot = ".xmonad/xpm/"  -- default: "."
+   , iconRoot = "/home/gladwin/.xmonad/xpm"  -- default: "."
 
    -- plugins
    --   Numbers can be automatically colored according to their value. xmobar
@@ -47,9 +47,11 @@ Config {
    , commands = 
 
         -- weather monitor
-        [ 
+        [
+	-- StdinReader
+	Run StdinReader 
         -- network activity monitor (dynamic interface resolution)
-        Run DynNetwork     [ "--template" , " <fn=2>\xf1d8</fn> <dev> (<fn=2>\xf358</fn> <tx>kB/s | <fn=2>\xf35b</fn> <rx>kB/s)"
+        , Run DynNetwork     [ "--template" , " <fn=2>\xf1d8</fn> <dev> (<fn=2>\xf358</fn> <tx>kB/s | <fn=2>\xf35b</fn> <rx>kB/s)"
                              , "--Low"      , "1000"       -- units: B/s
                              , "--High"     , "5000"       -- units: B/s
                              , "--low"      , "#2dbf1d"
