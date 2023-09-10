@@ -14,6 +14,7 @@ import System.Taffybar.Widget.Generic.Graph
 import System.Taffybar.Widget.Generic.PollingGraph
 import System.Taffybar.Widget.Util
 import System.Taffybar.Widget.Workspaces
+import System.Taffybar.Widget.Layout
 import System.Log.Logger
 import System.Taffybar.Information.EWMHDesktopInfo
 import System.Taffybar.Widget.SNITray
