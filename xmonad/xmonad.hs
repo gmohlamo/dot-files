@@ -106,8 +106,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -fn \"Source Code Pro\"` && eval \"exec $exe\"")
     , ((modm,               xK_p     ), spawn "exe=`rofi -show drun`")
 
-    -- launch gmrun
+    -- launch rofi-emoji
     , ((modm .|. shiftMask, xK_p     ), spawn "exe=`rofi -modi emoji -show emoji -kb-custom-1 Ctrl+c`")
+    -- launch lock screen
+    , ((modm .|. shiftMask, xK_l     ), spawn "exe=`dm-tool lock`")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
