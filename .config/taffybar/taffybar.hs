@@ -47,6 +47,7 @@ main = do
                                    }
       layout = layoutNew defaultLayoutConfig
       windows = windowsNew defaultWindowsConfig
+      myMpris = mpris2New
           -- See https://github.com/taffybar/gtk-sni-tray#statusnotifierwatcher
           -- for a better way to set up the sni tray
       tray = sniTrayNew
@@ -58,7 +59,7 @@ main = do
         , endWidgets = map (>>= buildContentsBox)
           [ clock
           , tray
-          , mpris2New
+          , myMpris
           ]
         , barPosition = Top
         , barPadding = 0
@@ -79,3 +80,4 @@ main = do
 --
 -- https://github.com/bgamari/xmonad-config/blob/master/taffybar-ben/taffybar.hs
 -- https://github.com/colonelpanic8/dotfiles/blob/master/dotfiles/config/taffybar/taffybar.hs
+-- https://github.com/colonelpanic8/taffybar-sni-example/blob/master/taffybar.hs
