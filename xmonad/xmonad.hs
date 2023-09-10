@@ -317,6 +317,7 @@ mySpacing = spacingRaw True             -- Only for >1 window
 myStartupHook = do
     spawnOnce "feh --bg-fill --randomize /home/gladwin/Images/Wallpapers/* &"
     spawnOnce "xcompmgr -c &"
+    spawnOnce "status-notifier-watcher &"
     -- spawnOnce "gtk-sni-tray-standalone -w &"
     spawnOnce "/usr/bin/vmware-user &"
     spawnOnce "vmware-user-suid-wrapper --no--startup-id"

@@ -1,6 +1,8 @@
+{-# LANGUAGE OverloadedStrings #-}
 -- -*- mode:haskell -*-
 module Main where
 
+import Data.Default (def)
 import System.FilePath
 import System.Taffybar
 import System.Taffybar.Hooks
@@ -8,18 +10,21 @@ import System.Taffybar.SimpleConfig
 import System.Taffybar.Widget
 import System.Taffybar.Widget.FreedesktopNotifications
 import System.Taffybar.Widget.Generic.PollingLabel
+import System.Taffybar.Widget.Generic.Graph
+import System.Taffybar.Widget.Generic.PollingGraph
 import System.Taffybar.Widget.Util
 import System.Taffybar.Widget.Workspaces
 import System.Log.Logger
 import System.Taffybar.Information.EWMHDesktopInfo
 import System.Taffybar.Widget.SNITray
+import System.Taffybar.Information.CPU
 
--- import Paths_taffybar_ben ( getDataDir )
 
 main = do
   --cssPath <- (</> "taffybar.css") <$> getDataDir
   let cssPath = "/home/gladwin/.config/taffybar/taffybar.css"
   print cssPath
+  -- remove this if it does not work
   let myWorkspacesConfig =
         defaultWorkspacesConfig
         { minIcons = 0
@@ -44,8 +49,8 @@ main = do
       windows = windowsNew defaultWindowsConfig
           -- See https://github.com/taffybar/gtk-sni-tray#statusnotifierwatcher
           -- for a better way to set up the sni tray
-      --tray = sniTrayNew
-      tray = sniTrayThatStartsWatcherEvenThoughThisIsABadWayToDoIt
+      tray = sniTrayNew
+      --tray = sniTrayThatStartsWatcherEvenThoughThisIsABadWayToDoIt
       myConfig = defaultSimpleTaffyConfig
         { startWidgets =
             workspaces :
