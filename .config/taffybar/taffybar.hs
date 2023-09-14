@@ -19,9 +19,11 @@ import System.Log.Logger
 import System.Taffybar.Information.EWMHDesktopInfo
 import System.Taffybar.Widget.SNITray
 import System.Taffybar.Information.CPU
+import System.Taffybar.Widget.Weather
 
 
 main = do
+  let wcfg = (defaultWeatherConfig "FAPR") { weatherTemplate = "Temp: $tempC$ 🌡️| Humidity: $humidity$" }
   --cssPath <- (</> "taffybar.css") <$> getDataDir
   let cssPath = "/home/gladwin/.config/taffybar/taffybar.css"
   print cssPath
@@ -47,6 +49,7 @@ main = do
                                    , clockFormatString = "%a %b %_d ⏰%R"
                                    }
       layout = layoutNew defaultLayoutConfig
+      weatherWidget = weatherNew wcfg 10
       windows = windowsNew defaultWindowsConfig
       myMpris = mpris2New
           -- See https://github.com/taffybar/gtk-sni-tray#statusnotifierwatcher
@@ -60,6 +63,7 @@ main = do
         , endWidgets = map (>>= buildContentsBox)
           [ clock
           , tray
+          , weatherWidget
           , myMpris
           ]
         , barPosition = Top
