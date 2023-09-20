@@ -4,7 +4,7 @@ Use the following commands to update the system without updating haskell and our
 If this is being done on a virtual machine, it might be a good idea to set a snapshot of the system before you update.
 This should ensure that the system does not break...
 ```bash
-ignore=`checkupdates | grep -E "haskell|pandoc|xmonad|xmobar|taffybar" | cut -d" " -f 1`
+ignore=`checkupdates | grep -E "hslua|haskell|pandoc|xmonad|xmobar|taffybar" | cut -d" " -f 1`
 packages=`echo -n $ignore | sed 's/\s\+/,/g'`
 yay -Syyu --ignore=$packages
 ```
