@@ -1,3 +1,5 @@
+set nocompatible
+filetype plugin on
 set term=xterm
 set number
 set relativenumber
@@ -25,6 +27,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'powerline/powerline-fonts'
 Plug 'ycm-core/youcompleteme'
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
@@ -71,3 +74,8 @@ let g:airline_symbols.dirty='⚡'
 
 let g:airline_theme='bubblegum'
 
+" vimwiki
+"let g:vimwiki_list = [{'path':"/home/gladwin/Documents/Notes/vim.wiki/",
+"			\ 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path':"/home/gladwin/Documents/Notes/vim.wiki/", "nested_syntaxes":{"python":"python","c++":"cpp","bash":"bash", "html":"html", "json":"json"}}]
+let g:vimwiki_global_ext = 0
