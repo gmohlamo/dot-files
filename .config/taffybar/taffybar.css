@@ -18,14 +18,16 @@
    */
 	all: unset;
 
-	font-family: "Noto Sans", sans-serif;
+	font-family: "Source Code Pro", sans-serif;
 	font-size: 10pt;
 	color: @font-color;
 }
 
 .taffy-box {
-	border-radius: 10px;
+	/*border-radius: 10px;
 	background-color: rgba(0.0, 0.0, 0.0, 0.3);
+	 */
+	background-color: black;
 }
 
 .inner-pad {
@@ -111,7 +113,8 @@ button:checked, button:hover .Contents:hover {
 /* The ".taffy-window" prefixed selectors are needed because if they aren't present,
    the top level .Taffybar selector takes precedence */
 .taffy-window menuitem *,  menuitem * {
-	color: @menu-font-color;
+	/*color: @menu-font-color;*/
+	color: white;
 }
 
 .taffy-window menuitem, menuitem {

@@ -33,6 +33,11 @@ import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 import XMonad.Hooks.EwmhDesktops (ewmh)
+-- Get Polybar to work
+import qualified DBus as D
+import qualified DBus.Client as D
+import qualified Codec.Binary.UTF8.String as UTF8
+
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.

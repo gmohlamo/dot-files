@@ -32,7 +32,7 @@ memCallback = do
   return [memoryUsedRatio mi]
 
 main = do
-  let wcfg = (defaultWeatherConfig "FAPR") { weatherTemplate = "Temp: $tempC$ 🌡️| Humidity: $humidity$" }
+  let wcfg = (defaultWeatherConfig "FAIR") { weatherTemplate = "Temp: $tempC$ 🌡️| Humidity: $humidity$" }
   let cpuCfg = def { graphDataColors = [ (0, 1, 0, 1), (1, 0, 1, 0.5)]
     , graphLabel = Just "cpu"
     }
@@ -50,16 +50,9 @@ main = do
         defaultWorkspacesConfig
         { minIcons = 0
         , maxIcons = Just 0
-        , widgetGap = 0
+        , widgetGap = 2
         , showWorkspaceFn = hideEmpty
         , getWindowIconPixbuf = \_ _ -> return Nothing
-        , updateEvents =
-          [ "_NET_CURRENT_DESKTOP"
-          , "_NET_NUMBER_OF_DESKTOPS"
-          , "_NET_DESKTOP_NAMES"
-          , "_NET_NUMBER_OF_DESKTOPS"
-          ]
-        , updateRateLimitMicroseconds = 200000
         }
       workspaces = workspacesNew myWorkspacesConfig
       clock = textClockNewWith
@@ -72,23 +65,24 @@ main = do
       cpu = pollingGraphNew cpuCfg 0.5 cpuCallback
       mem = pollingGraphNew memCfg 1 memCallback
       net = networkGraphNew netCfg Nothing
-      myMpris = mpris2New
           -- See https://github.com/taffybar/gtk-sni-tray#statusnotifierwatcher
           -- for a better way to set up the sni tray
       tray = sniTrayNew
-      --tray = sniTrayThatStartsWatcherEvenThoughThisIsABadWayToDoIt
+      -- tray = sniTrayThatStartsWatcherEvenThoughThisIsABadWayToDoIt
       myConfig = defaultSimpleTaffyConfig
         { startWidgets =
             workspaces :
             map (>>= buildContentsBox) [ windows, layout ]
-        , endWidgets = map (>>= buildContentsBox)
+        , centerWidgets = map (>>= buildContentsBox)
           [ clock
-          , cpu
+          , weatherWidget
+          ]
+        , endWidgets = map (>>= buildContentsBox)
+          [ cpu
           , mem
           , net
           , tray
-          , weatherWidget
-          , myMpris
+          -- , mpris2New
           ]
         , barPosition = Top
         , barPadding = 0
@@ -99,10 +93,11 @@ main = do
   --dyreTaffybar $ withBatteryRefresh $ withLogServer $ withToggleServer $
   --             toTaffyConfig myConfig
 
-  logger <- getLogger "System.Taffybar"
-  saveGlobalLogger $ setLevel INFO logger
+  -- logger <- getLogger "System.Taffybar"
+  -- saveGlobalLogger $ setLevel INFO logger
 
-  startTaffybar $ withBatteryRefresh $ withLogServer $ withToggleServer $ toTaffyConfig myConfig
+  simpleTaffybar myConfig
+  -- startTaffybar $ withLogServer $ withToggleServer $ toTaffyConfig myConfig
 
 -- https://hackage.haskell.org/package/taffybar-4.0.0/docs/System-Taffybar.html
 -- https://hackage.haskell.org/package/taffybar-4.0.0/docs/
@@ -110,3 +105,4 @@ main = do
 -- https://github.com/bgamari/xmonad-config/blob/master/taffybar-ben/taffybar.hs
 -- https://github.com/colonelpanic8/dotfiles/blob/master/dotfiles/config/taffybar/taffybar.hs
 -- https://github.com/colonelpanic8/taffybar-sni-example/blob/master/taffybar.hs
+-- https://www.nws.noaa.gov/dm-cgi-bin/nsd_state_lookup.pl
