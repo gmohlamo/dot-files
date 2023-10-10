@@ -1,0 +1,18 @@
+[Unit]
+Description=Taffybar desktop bar
+StartLimitBurst=5
+StartLimitIntervalSec=10
+After=xorg.target
+After=network.service
+After=network-online.service
+Requires=default.target
+
+
+[Service]
+Type=dbus
+Environment="DISPLAY=:0"
+BusName=org.taffybar.Bar
+ExecStart=/usr/bin/taffybar
+
+[Install]
+WantedBy=default.target

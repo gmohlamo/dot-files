@@ -99,7 +99,7 @@
 /* Button styling */
 
 button {
-	background-color: @transparent;
+	background-color: black;
 	border-width: 0px;
 	border-radius: 0px;
 }
@@ -114,7 +114,7 @@ button:checked, button:hover .Contents:hover {
    the top level .Taffybar selector takes precedence */
 .taffy-window menuitem *,  menuitem * {
 	/*color: @menu-font-color;*/
-	color: white;
+	color: black;
 }
 
 .taffy-window menuitem, menuitem {

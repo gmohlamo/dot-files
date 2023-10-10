@@ -27,12 +27,18 @@ import XMonad.Layout.Spacing
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 import XMonad.Hooks.EwmhDesktops (ewmh)
+-- Get Polybar to work
+import qualified DBus as D
+import qualified DBus.Client as D
+import qualified Codec.Binary.UTF8.String as UTF8
+
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
@@ -163,7 +169,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
     -- See also the statusBar function from Hooks.DynamicLog.
     --
-    -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
+    , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
@@ -330,11 +336,12 @@ myStartupHook = do
 --
 main = do
     -- xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
-    xmproc <- spawnPipe "taffybar"
+    -- xmproc <- spawnPipe "taffybar"
     xmonad $ docks
            $ ewmh
            $ pagerHints
-           $ defaults { logHook = dynamicLogWithPP $ def { ppOutput = hPutStrLn xmproc } }
+           $ defaults
+           -- $ defaults { logHook = dynamicLogWithPP $ def { ppOutput = hPutStrLn xmproc } }
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
