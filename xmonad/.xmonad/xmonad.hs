@@ -27,6 +27,7 @@ import XMonad.Layout.Spacing
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run(spawnPipe)
@@ -335,11 +336,12 @@ myStartupHook = do
 --
 main = do
     -- xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
-    xmproc <- spawnPipe "taffybar"
+    -- xmproc <- spawnPipe "taffybar"
     xmonad $ docks
            $ ewmh
            $ pagerHints
-           $ defaults { logHook = dynamicLogWithPP $ def { ppOutput = hPutStrLn xmproc } }
+           $ defaults
+           -- $ defaults { logHook = dynamicLogWithPP $ def { ppOutput = hPutStrLn xmproc } }
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
