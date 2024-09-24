@@ -20,6 +20,7 @@ return {
 			sync_install = false,
 			ignore_install = {},
 			ensure_installed = {
+				"python",
 				"go",
 				"json",
 				"javascript",
@@ -33,5 +34,3 @@ return {
 		})
 	end,
 }
-
-

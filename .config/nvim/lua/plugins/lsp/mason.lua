@@ -19,6 +19,7 @@ return {
 		require("mason-lspconfig").setup({
 			automatic_installation = true,
 			ensure_installed = {
+				"jedi_language_server",
 				"clangd",
 				"gopls",
 				"html",
