@@ -42,7 +42,7 @@ return {
 				opts.desc = "Go to next diagnostic"
 				keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 				opts.desc = "Show documentation for what is under cursor"
-				keymap.set("n", "K", vim.lsp.buf.hover, opts)     -- show documentation for what is under cursor
+				keymap.set("n", "K", vim.lsp.buf.hover, opts)    -- show documentation for what is under cursor
 				opts.desc = "Restart LSP"
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 			end,
@@ -52,7 +52,7 @@ return {
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
-		local signs = { Error = "💣", Warn = " ", Hint = "󰠠 ", Info = " " }
+		local signs = { Error = "💣", Warn = " ", Hint = "💡", Info = "🔍" }
 		for type, icon in pairs(signs) do
 			local h1 = "DiagnosticSign" .. type
 			vim.fn.sign_define(h1, { text = icon, texth1 = h1, numh1 = "" })
@@ -110,6 +110,52 @@ return {
 					on_attach = on_attach,
 				})
 			end,
+			["vtsls"] = function()
+				local on_attach = function(client, bufnr)
+					-- Enable completion triggered by <c-x><c-o>
+					vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+				end
+				lspconfig["vtsls"].setup({
+					cmd = { "vtsls", "--stdio" },
+					filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+					completions = {
+						completeFunctionCalls = true,
+					},
+					single_file_support = true,
+					on_attach = on_attach,
+				})
+			end,
+			-- ideally this should give us intellisense in latex projects...
+			-- I might need to keep testing though
+			["textlsp"] = function()
+				lspconfig["textlsp"].setup({
+					capabilities = capabilities,
+					filetypes = { "tex" },
+					cmd = { "textlsp" },
+					settings = {
+						textLSP = {
+							analysers = {
+								languagetool = {
+									check_text = {
+										on_change = false,
+										on_open = true,
+										on_save = true,
+									},
+									enabled = true,
+								},
+							},
+							documents = {
+								org = {
+									org_todo_keywords = { "TODO", "IN_PROGRESS", "DONE" },
+								},
+							},
+						},
+					},
+					single_file_support = true,
+				})
+			end,
+			-- Think of tis as our spelling checker
+			-- nothing crazy, but it should see stupid mistakes in articles
 			["vale_ls"] = function()
 				lspconfig["vale_ls"].setup({
 					capabilities = capabilities,

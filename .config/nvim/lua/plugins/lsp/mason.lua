@@ -23,7 +23,7 @@ return {
 				"clangd",
 				"gopls",
 				"html",
-				"eslint",
+				"vtsls",
 				"textlsp",
 				"lua_ls",
 				"vale_ls",

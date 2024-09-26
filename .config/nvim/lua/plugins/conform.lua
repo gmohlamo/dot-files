@@ -6,13 +6,13 @@ return {
 
 		conform.setup({
 			formatters_by_ft = {
-				go = {  "goimports", "gofmt"  },
-				c = { "clang-format" },
+				go = { "goimports", "gofmt" },
+				-- c = { "clang-format" },
 			},
 			format_on_save = {
 				lsp_fallback = true,
 				async = false,
-				timeout_ms = 200,
+				timeout_ms = 1000,
 			},
 		})
 
