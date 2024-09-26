@@ -4,6 +4,7 @@ return {
 		"rcarriga/nvim-dap-ui",
 		"nvim-neotest/nvim-nio",
 		"leoluz/nvim-dap-go",
+		"julianolf/nvim-dap-lldb",
 	},
 	config = function()
 		local dap = require("dap")
@@ -53,9 +54,9 @@ return {
 		-- dap symbols
 		vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = '', numhl = '' })
 		vim.fn.sign_define('DapStopped', { text = '🍺', texthl = '', linehl = '', numhl = '' })
-		--vim.fn.sign_define("DapBreakpointRejected", { text = "🙈", texthl = "DiagnosticError" })
-		--vim.fn.sign_define("DapBreakpointCondition", { text = "🧐", texthl = "DiagnosticInfo" })
-		--vim.fn.sign_define("DapLogPoint", { text = "📓", texthl = "DiagnosticInfo" })
+		vim.fn.sign_define("DapBreakpointRejected", { text = "🙈", texthl = "DiagnosticError" })
+		vim.fn.sign_define("DapBreakpointCondition", { text = "🧐", texthl = "DiagnosticInfo" })
+		vim.fn.sign_define("DapLogPoint", { text = "📓", texthl = "DiagnosticInfo" })
 		-- setup golang debugger
 		require("dap-go").setup({
 			dap_configurations = {
@@ -76,6 +77,31 @@ return {
 			},
 			tests = {
 				verbose = false,
+			},
+		})
+		-- setup lldb intergration
+		require("dap-lldb").setup({
+			codelldb_path = "/usr/bin/codelldb",
+			configurations = {
+				c = {
+					-- might need to ignore this and use a `.vscode` directory with the json config
+					{
+						name = "Launch debugger",
+						type = "lldb",
+						request = "launch",
+						cwd = "${workspaceFolder}",
+						program = function()
+							-- Build with debug symbols
+							local out = vim.fn.system("make", "debug") -- this assumes that you have a make file present
+							-- check errors
+							if vim.v.shell_error ~= 0 then
+								vim.notify(out, vim.log.levels.ERROR)
+								return nil
+							end
+							return "path/to/executable"
+						end,
+					},
+				},
 			},
 		})
 	end,
