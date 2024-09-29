@@ -28,6 +28,7 @@ return {
 				"lua_ls",
 				"vale_ls",
 				"vimls",
+				"texlab", -- 🤷 I found it in the mason-lspconfig LSP list
 				"autotools_ls",
 			},
 		})

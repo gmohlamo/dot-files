@@ -125,6 +125,36 @@ return {
 					on_attach = on_attach,
 				})
 			end,
+			["texlab"] = function()
+				lspconfig["texlab"].setup({
+					capabilities = capabilities,
+					filetypes = { "tex", "plaintex", "bib" },
+					settings = {
+						auxDirectory = ".",
+						bibtexFormatter = "texlab",
+						build = {
+							args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+							executable = "latexmk",
+							forwardSearchAfter = false,
+							onSave = false,
+						},
+						chktex = {
+							onEdit = false,
+							onOpenAndSave = false,
+						},
+						diagnosticsDelay = 300,
+						formatterLineLength = 80,
+						forwardSearch = {
+							args = {},
+						},
+						latexFormatter = "latexindent",
+						latexindent = {
+							modifyLineBreaks = false,
+						},
+					},
+					single_file_support = true,
+				})
+			end,
 			-- ideally this should give us intellisense in latex projects...
 			-- I might need to keep testing though
 			["textlsp"] = function()
@@ -154,12 +184,13 @@ return {
 					single_file_support = true,
 				})
 			end,
+			-- latex
 			-- Think of tis as our spelling checker
 			-- nothing crazy, but it should see stupid mistakes in articles
 			["vale_ls"] = function()
 				lspconfig["vale_ls"].setup({
 					capabilities = capabilities,
-					filetypes = { "markdown", "text", "tex" },
+					filetypes = { "markdown", "text", "tex", "vimwiki" },
 				})
 			end,
 		})
