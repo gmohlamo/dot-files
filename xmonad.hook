@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = xmonad
+Target = xmonad-contrib
+Target = xmonad-dbus
+Target = haskell-*
+
+[Action]
+Description = Recompiling xmonad...
+When = PostTransaction
+Exec = /usr/bin/sudo -u <insert username> /usr/bin/xmonad --recompile
