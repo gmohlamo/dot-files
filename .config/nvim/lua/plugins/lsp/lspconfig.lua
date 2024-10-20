@@ -185,15 +185,6 @@ return {
 					single_file_support = true,
 				})
 			end,
-			-- latex
-			-- Think of tis as our spelling checker
-			-- nothing crazy, but it should see stupid mistakes in articles
-			["vale_ls"] = function()
-				lspconfig["vale_ls"].setup({
-					capabilities = capabilities,
-					filetypes = { "markdown", "text", "tex", "vimwiki" },
-				})
-			end,
 			["pbls"] = function()
 				local on_attach = function(client, bufnr)
 					-- Enable completion triggered by <c-x><c-o>
@@ -206,22 +197,6 @@ return {
 					cmd = { "pbls" },
 					filetypes = { "proto" },
 					root_dir = nvim_lsp.util.root_pattern(".pbls.toml", ".git"),
-				})
-			end,
-			["hls"] = function()
-				local on_attach = function(client, bufnr)
-					-- Enable completion triggered by <c-x><c-o>
-					vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-				end
-				local nvim_lsp = require 'lspconfig'
-				lspconfig["hls"].setup({
-					capabilities = capabilities,
-					on_attach = on_attach,
-					cmd = { "haskell-language-server-wrapper", "--lsp" },
-					filetypes = { "haskell", "lhaskell" },
-					root_dir = nvim_lsp.util.root_pattern("hie.yaml", "stack.yaml", "cabal.project",
-						"*.cabal", "package.yaml"),
-					single_file_support = true,
 				})
 			end,
 		})

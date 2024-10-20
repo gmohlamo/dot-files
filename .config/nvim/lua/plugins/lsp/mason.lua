@@ -19,7 +19,6 @@ return {
 		require("mason-lspconfig").setup({
 			automatic_installation = true,
 			ensure_installed = {
-				"hls",
 				"jedi_language_server",
 				"clangd",
 				"pbls",
@@ -28,7 +27,6 @@ return {
 				"vtsls",
 				"textlsp",
 				"lua_ls",
-				"vale_ls",
 				"vimls",
 				"texlab", -- 🤷 I found it in the mason-lspconfig LSP list
 				"autotools_ls",
