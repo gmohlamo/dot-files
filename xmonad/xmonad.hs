@@ -19,8 +19,6 @@ import XMonad
 import Data.Monoid
 import System.Exit
 
-import System.Taffybar.Support.PagerHints (pagerHints)
-
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import XMonad.Layout.Spacing
@@ -34,7 +32,7 @@ import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 import XMonad.Hooks.EwmhDesktops (ewmh)
--- Get Polybar to work
+import Graphics.X11.ExtraTypes.XF86
 import qualified DBus as D
 import qualified DBus.Client as D
 import qualified Codec.Binary.UTF8.String as UTF8
@@ -176,6 +174,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Restart xmonad
     , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
+    , ((0              , xF86XK_AudioLowerVolume     ), spawn "pactl set-sink-volume 0 -1.5%")
+    , ((0              , xF86XK_AudioRaiseVolume     ), spawn "pactl set-sink-volume 0 +1.5%")
+    , ((0              , xF86XK_AudioPlay     ), spawn "playerctl play-pause")
+    , ((0              , xF86XK_AudioNext     ), spawn "playerctl next")
+    , ((0              , xF86XK_AudioPrev     ), spawn "playerctl previous")
     ]
     ++
 
@@ -339,7 +342,7 @@ main = do
     -- xmproc <- spawnPipe "taffybar"
     xmonad $ docks
            $ ewmh
-           $ pagerHints
+           -- $ pagerHints
            $ defaults
            -- $ defaults { logHook = dynamicLogWithPP $ def { ppOutput = hPutStrLn xmproc } }
 

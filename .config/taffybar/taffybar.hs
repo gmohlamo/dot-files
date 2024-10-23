@@ -82,7 +82,7 @@ main = do
           , mem
           , net
           , tray
-          -- , mpris2New
+          , mpris2New
           ]
         , barPosition = Top
         , barPadding = 0

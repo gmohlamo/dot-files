@@ -77,6 +77,11 @@
 	padding-bottom: 3px;
 }
 
+.tray-icon-image {
+        padding-left: 3px;
+        padding-right: 1px;
+}
+
 .window-icon-container.active {
 	box-shadow: inset 0 -3px @white;
 }
