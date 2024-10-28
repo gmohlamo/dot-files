@@ -327,7 +327,7 @@ myStartupHook = do
     spawnOnce "feh --bg-fill --randomize /home/gladwin/Images/Wallpapers/* &"
     spawnOnce "xcompmgr -c &"
     spawnOnce "status-notifier-watcher &"
-    -- spawnOnce "gtk-sni-tray-standalone -w &"
+    spawnOnce "systemctl --user start taffybar.service"
     spawnOnce "/usr/bin/vmware-user &"
     spawnOnce "vmware-user-suid-wrapper --no--startup-id"
     setWMName "LG3D"
