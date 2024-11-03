@@ -1,0 +1,10 @@
+html,
+body {
+	background-image: none !important;
+	background-color: rgba(40, 42, 54, 1) !important;
+}
+
+body * {
+	color: rgba(248, 248, 242, 1) !important;
+	background-color: rgba(40, 42, 54, 1) !important;
+}

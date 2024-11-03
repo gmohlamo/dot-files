@@ -1,1 +1,0 @@
-texlive-basic texlive-latexrecommended texlive-latexextra texlive-fontsrecommended texlive-fontsextra texlive-xetex texlive-luatex texlive-bibtexextra texlive-mathscience texlive-binextra texlab 

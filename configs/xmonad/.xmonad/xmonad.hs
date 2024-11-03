@@ -30,6 +30,7 @@ import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Hooks.TaffybarPagerHints
 import System.IO
 import XMonad.Hooks.EwmhDesktops (ewmh)
 import Graphics.X11.ExtraTypes.XF86
@@ -342,7 +343,7 @@ main = do
     -- xmproc <- spawnPipe "taffybar"
     xmonad $ docks
            $ ewmh
-           -- $ pagerHints
+           $ pagerHints
            $ defaults
            -- $ defaults { logHook = dynamicLogWithPP $ def { ppOutput = hPutStrLn xmproc } }
 

@@ -1,0 +1,26 @@
+[Unit]
+Description=Taffybar desktop bar
+StartLimitBurst=5
+StartLimitIntervalSec=10
+After=xorg.target
+After=network.service
+After=network-online.service
+After=sleep.target
+After=suspend.target
+After=hibernate.target
+Requires=default.target
+
+
+[Service]
+Type=dbus
+Restart=on-failure
+RestartSec=1s
+Environment="DISPLAY=:0"
+BusName=org.taffybar.Bar
+ExecStart=/usr/bin/taffybar
+
+[Install]
+WantedBy=default.target
+WantedBy=sleep.target
+WantedBy=suspend.target
+WantedBy=hibernate.target
