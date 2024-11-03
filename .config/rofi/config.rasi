@@ -1,8 +1,0 @@
-configuration {
- modi: "window,drun,ssh,combi";
- font: "Source Code Pro 10";
- combi-modi: "window,drun,ssh";
- icon-theme: "Papirus-Dark";
-  }
-@theme "/home/gladwin/tools/packages/rofi-collection/material/material.rasi"
-//@theme "/usr/share/rofi/themes/Paper.rasi"
