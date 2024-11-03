@@ -159,3 +159,4 @@ export PATH=$PATH:"/home/gladwin/.local/bin":"/home/gladwin/go/bin:/home/gladwin
 # We are using this to replace HSTR too
 source ~/.fzfrc
 
+export GIT_EDITOR=vim
