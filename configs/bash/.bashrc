@@ -93,7 +93,6 @@ completions=(
 aliases=(
   general
   new-window
-  vpn
   offsec
   bloodhound
 )
