@@ -42,7 +42,7 @@ import qualified Codec.Binary.UTF8.String as UTF8
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal      = "kitty"
+myTerminal      = "wezterm"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
