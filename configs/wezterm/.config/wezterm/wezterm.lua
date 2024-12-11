@@ -21,7 +21,7 @@ config.window_background_opacity = 0.9
 -- disable default keybinds
 config.disable_default_key_bindings = true
 --keys
-config.leader = { key = "q", mods = "CTRL", timeout_milliseconds = 2000 }
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 2000 }
 config.keys = require("keybinds")
 
 -- key_tables

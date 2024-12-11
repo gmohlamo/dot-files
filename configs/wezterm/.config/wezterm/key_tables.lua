@@ -9,6 +9,16 @@ local function copy_to()
 	})
 end
 
+local function copy_search()
+	return act.Multiple({
+		act.CopyMode { SetSelectionMode = 'Line' },
+		act.CopyTo('Clipboard'),
+		act.ClearSelection,
+		-- clear the selection mode, but remain in copy mode
+		act.CopyMode('ClearSelectionMode'),
+	})
+end
+
 local key_maps = {
 	-- Defines the keys that are active in our resize-pane mode.
 	-- Since we're likely to want to make multiple adjustments,
@@ -61,6 +71,11 @@ local key_maps = {
 			action = act.CopyMode { SetSelectionMode = 'Line' },
 		},
 		{
+			key = 'v',
+			mods = 'CTRL',
+			action = act.CopyMode { SetSelectionMode = 'Block' },
+		},
+		{
 			key = 'y',
 			mods = 'NONE',
 			action = copy_to(),
@@ -72,10 +87,30 @@ local key_maps = {
 				{ CopyMode = 'Close' }
 			}
 		},
-		{ key = 'DownArrow',  mods = 'NONE', action = act.CopyMode 'MoveDown' },
-		{ key = 'UpArrow',    mods = 'NONE', action = act.CopyMode 'MoveUp' },
 		{ key = 'LeftArrow',  mods = 'NONE', action = act.CopyMode 'MoveLeft' },
+		{ key = 'h',          mods = 'NONE', action = act.CopyMode 'MoveLeft' },
 		{ key = 'RightArrow', mods = 'NONE', action = act.CopyMode 'MoveRight' },
+		{ key = 'l',          mods = 'NONE', action = act.CopyMode 'MoveRight' },
+		{ key = 'UpArrow',    mods = 'NONE', action = act.CopyMode 'MoveUp' },
+		{ key = 'k',          mods = 'NONE', action = act.CopyMode 'MoveUp' },
+		{ key = 'DownArrow',  mods = 'NONE', action = act.CopyMode 'MoveDown' },
+		{ key = 'j',          mods = 'NONE', action = act.CopyMode 'MoveDown' },
+		-- word navigation
+		{ key = 'w',          mods = 'NONE', action = act.CopyMode 'MoveForwardWord' },
+		{ key = 'b',          mods = 'NONE', action = act.CopyMode 'MoveBackwardWord' },
+		-- Big moves
+		{ key = 'G',          mods = 'NONE', action = act.CopyMode 'MoveToScrollbackBottom' },
+		{ key = 'g',          mods = 'NONE', action = act.CopyMode 'MoveToScrollbackTop' },
+	},
+	search_mode = {
+		{
+			key = 'y',
+			mods = 'CTRL',
+			action = act.ActivateCopyMode,
+		},
+		{ key = "Escape", mods = "NONE", action = act.CopyMode "Close" },
+		{ key = "n",      mods = "CTRL", action = act.CopyMode "NextMatch" },
+		{ key = "N",      mods = "CTRL", action = act.CopyMode "PriorMatch" },
 	},
 }
 

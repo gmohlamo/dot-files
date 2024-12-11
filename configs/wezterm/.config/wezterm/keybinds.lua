@@ -41,6 +41,11 @@ local keys = {
 		action = wezterm.action.CopyTo 'ClipboardAndPrimarySelection',
 	},
 	{
+		mods = "LEADER",
+		key = "w",
+		action = wezterm.action.CloseCurrentTab { confirm = true }
+	},
+	{
 		key = 'r',
 		mods = 'LEADER',
 		action = wezterm.action.ActivateKeyTable {
@@ -60,6 +65,11 @@ local keys = {
 		key = "X",
 		mods = "LEADER|SHIFT",
 		action = wezterm.action.ActivateCopyMode
+	},
+	{
+		key = "s",
+		mods = "LEADER",
+		action = wezterm.action.Search "CurrentSelectionOrEmptyString"
 	},
 }
 
