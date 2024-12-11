@@ -6,7 +6,9 @@ local M = {}
 local is_windows = string.match(wezterm.target_triple, 'windows') ~= nil
 local separator = is_windows and '\\' or '/'
 
-local plugin_dir = wezterm.plugin.list()[1].plugin_dir:gsub(separator .. '[^' .. separator .. ']*$', '')
+--local plugin_dir = wezterm.plugin.list()[1].plugin_dir:gsub(separator .. '[^' .. separator .. ']*$', '')
+local plugin_dir = ""
+
 
 --- Checks if the plugin directory exists
 local function directory_exists(path)

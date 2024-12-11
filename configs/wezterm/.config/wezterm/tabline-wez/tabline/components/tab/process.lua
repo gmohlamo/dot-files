@@ -21,7 +21,7 @@ return {
 			['cmd.exe'] = { wezterm.nerdfonts.md_console_line, color = { fg = scheme.cursor_bg or nil } },
 			['curl'] = wezterm.nerdfonts.md_flattr,
 			['debug'] = { wezterm.nerdfonts.cod_debug, color = { fg = scheme.ansi[5] } },
-			['default'] = wezterm.nerdfonts.md_application,
+			['default'] = wezterm.nerdfonts.linux_archlinux,
 			['docker'] = { wezterm.nerdfonts.linux_docker, color = { fg = scheme.ansi[5] } },
 			['docker-compose'] = { wezterm.nerdfonts.linux_docker, color = { fg = scheme.ansi[5] } },
 			['dpkg'] = { wezterm.nerdfonts.dev_debian, color = { fg = scheme.ansi[2] } },
@@ -72,7 +72,7 @@ return {
 		if tab.active_pane and tab.active_pane.foreground_process_name then
 			foreground_process_name = tab.active_pane.foreground_process_name
 			foreground_process_name = foreground_process_name:match('([^/\\]+)[/\\]?$') or
-			foreground_process_name
+			    foreground_process_name
 		end
 
 		-- fallback to the title if the foreground process name is unavailable
@@ -81,13 +81,13 @@ return {
 		-- title defaults to 'wezterm' if another name is unavailable
 		if foreground_process_name == '' then
 			foreground_process_name = (tab.tab_title and #tab.tab_title > 0) and tab.tab_title or
-			tab.active_pane.title
+			    tab.active_pane.title
 		end
 
 		-- if the tab active pane contains a non-local domain, use the domain name
 		if foreground_process_name == 'wezterm' then
 			foreground_process_name = tab.active_pane.domain_name ~= 'local' and tab.active_pane.domain_name or
-			'wezterm'
+			    'wezterm'
 		end
 
 		local icon_set = false
@@ -102,7 +102,7 @@ return {
 		end
 
 		if not icon_set then
-			util.overwrite_icon(opts, opts.process_to_icon['default'])
+			util.overwrite_icon(opts, wezterm.nerdfonts.linux_archlinux)
 		end
 
 		return foreground_process_name
