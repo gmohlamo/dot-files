@@ -45,6 +45,24 @@ local keys = {
 		key = "w",
 		action = wezterm.action.CloseCurrentTab { confirm = true }
 	},
+	-- This is a bug, but it works better than I expected
+	-- By using "A" instead of the lowercase variant, I get to skip all the way to the start of the line
+	{
+		mods = "CTRL",
+		key = "a",
+		action = wezterm.action.SendKey {
+			mods = "CTRL|SHIFT|ALT",
+			key = "B"
+		}
+	},
+	{
+		mods = "CTRL",
+		key = "e",
+		action = wezterm.action.SendKey {
+			mods = "CTRL|SHIFT|ALT",
+			key = "F"
+		}
+	},
 	{
 		key = 'r',
 		mods = 'LEADER',

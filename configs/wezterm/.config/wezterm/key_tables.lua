@@ -9,16 +9,6 @@ local function copy_to()
 	})
 end
 
-local function copy_search()
-	return act.Multiple({
-		act.CopyMode { SetSelectionMode = 'Line' },
-		act.CopyTo('Clipboard'),
-		act.ClearSelection,
-		-- clear the selection mode, but remain in copy mode
-		act.CopyMode('ClearSelectionMode'),
-	})
-end
-
 local key_maps = {
 	-- Defines the keys that are active in our resize-pane mode.
 	-- Since we're likely to want to make multiple adjustments,
