@@ -7,6 +7,7 @@ config.hide_tab_bar_if_only_one_tab = false
 config.tab_and_split_indices_are_zero_based = true
 config.use_fancy_tab_bar = false
 config.color_scheme = "Gnometerm (terminal.sexy)"
+config.audible_bell = "Disabled"
 config.font_size = 9.5
 config.window_padding = {
 	left = 0,

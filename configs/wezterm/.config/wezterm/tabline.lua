@@ -5,7 +5,7 @@ local tabline = wezterm.plugin.require("https://github.com/michaelbrusegard/tabl
 tabline.setup({
 	options = {
 		icons_enabled = true,
-		theme = 'Gotham (terminal.sexy)',
+		theme = 'darkermatrix',
 		color_overrides = {},
 		section_separators = {
 			right = wezterm.nerdfonts.ple_left_half_circle_thick,
@@ -26,8 +26,8 @@ tabline.setup({
 		tabline_c = { ' ' },
 		tab_active = {
 			'process',
-			--{ 'parent', padding = 0 },
-			--'/',
+			{ 'parent', padding = 0 },
+			'/',
 			{ 'cwd',    padding = { left = 0, right = 1 } },
 			{ 'zoomed', padding = 0 },
 		},
