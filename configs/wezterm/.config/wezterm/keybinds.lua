@@ -1,7 +1,8 @@
 local wezterm = require("wezterm")
 local keys = {
-	{ key = '=', mods = 'CTRL', action = wezterm.action.IncreaseFontSize },
-	{ key = '-', mods = 'CTRL', action = wezterm.action.DecreaseFontSize },
+	{ key = "+", mods = "LEADER|SHIFT", action = wezterm.action.PaneSelect({ mode = "SwapWithActiveKeepFocus" }) },
+	{ key = '=', mods = 'CTRL',         action = wezterm.action.IncreaseFontSize },
+	{ key = '-', mods = 'CTRL',         action = wezterm.action.DecreaseFontSize },
 	{
 		mods = "LEADER",
 		key = "c",
@@ -22,6 +23,8 @@ local keys = {
 		key = "]",
 		action = wezterm.action.ActivateTabRelative(1)
 	},
+	{ key = "Tab", mods = "CTRL",       action = wezterm.action.ActivateTabRelative(1) },
+	{ key = "Tab", mods = "SHIFT|CTRL", action = wezterm.action.ActivateTabRelative(-1) },
 	{
 		mods = "LEADER|SHIFT",
 		key = "%",
@@ -45,6 +48,11 @@ local keys = {
 	{
 		mods = "LEADER",
 		key = "w",
+		action = wezterm.action.CloseCurrentPane { confirm = true }
+	},
+	{
+		mods = "LEADER",
+		key = "W",
 		action = wezterm.action.CloseCurrentTab { confirm = true }
 	},
 	-- This is a bug, but it works better than I expected
