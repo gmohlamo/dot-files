@@ -1,5 +1,7 @@
 local wezterm = require("wezterm")
 local keys = {
+	{ key = '=', mods = 'CTRL', action = wezterm.action.IncreaseFontSize },
+	{ key = '-', mods = 'CTRL', action = wezterm.action.DecreaseFontSize },
 	{
 		mods = "LEADER",
 		key = "c",
