@@ -74,7 +74,7 @@ callWttr url =
                   (request {requestHeaders = [("User-Agent", "curl")]})
                   manager
             )
-        let body = T.stripEnd (decodeUtf8 response)
+        let body = (T.strip (decodeUtf8 response))
         return $
           if not isOk || isImage url || unknownLocation body
             then "✨"
