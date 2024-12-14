@@ -99,6 +99,14 @@ local keys = {
 		mods = "LEADER",
 		action = wezterm.action.Search "CurrentSelectionOrEmptyString"
 	},
+	{
+		key = 'u',
+		mods = 'SHIFT|CTRL',
+		action = wezterm.action.CharSelect {
+			copy_on_select = true,
+			copy_to = 'ClipboardAndPrimarySelection',
+		},
+	},
 }
 
 for i = 0, 8 do
