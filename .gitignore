@@ -1,2 +1,6 @@
 .config/nvim/lazy-lock.json
 .config/vale/styles
+configs/systemd/.config/systemd/user/default.target.wants
+configs/systemd/.config/systemd/user/hibernate.target.wants
+configs/systemd/.config/systemd/user/sleep.target.wants
+configs/systemd/.config/systemd/user/suspend.target.wants

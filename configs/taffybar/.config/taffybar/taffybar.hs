@@ -5,6 +5,7 @@ module Main where
 import Data.Default (def)
 import System.FilePath
 import System.Taffybar
+import WttrIn
 import System.Taffybar.Hooks
 import System.Taffybar.SimpleConfig
 import System.Taffybar.Widget
@@ -60,12 +61,13 @@ main = do
                                    , clockFormatString = "%a %b %_d ⏰%R"
                                    }
       layout = layoutNew defaultLayoutConfig
-      weatherWidget = weatherNew wcfg 10
+      -- weatherWidget = weatherNew wcfg 10
       windows = windowsNew defaultWindowsConfig
       cpu = pollingGraphNew cpuCfg 0.5 cpuCallback
       mem = pollingGraphNew memCfg 1 memCallback
       net = networkGraphNew netCfg Nothing
       tray = sniTrayNew
+      weatherWidget = textWttrNew "http://wttr.in/?format=4" 60
       myConfig = defaultSimpleTaffyConfig
         { startWidgets =
             workspaces :
