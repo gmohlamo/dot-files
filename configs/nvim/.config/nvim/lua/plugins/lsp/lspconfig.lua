@@ -199,6 +199,17 @@ return {
 					root_dir = nvim_lsp.util.root_pattern(".pbls.toml", ".git"),
 				})
 			end,
+			["autotools_ls"] = function()
+				lspconfig["autotools_ls"].setup({
+					capabilities = capabilities,
+					filetypes = {
+						"make",
+						"automake",
+						"config",
+					},
+					cmd = { "autotools-language-server" },
+				})
+			end,
 		})
 	end,
 }
