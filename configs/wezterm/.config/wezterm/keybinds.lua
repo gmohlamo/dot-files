@@ -8,11 +8,11 @@ local keys = {
 		key = "c",
 		action = wezterm.action.SpawnTab "CurrentPaneDomain",
 	},
-	{
-		mods = "LEADER",
-		key = "x",
-		action = wezterm.action.CloseCurrentPane { confirm = true },
-	},
+	--{
+	--	mods = "LEADER",
+	--	key = "x",
+	--	action = wezterm.action.CloseCurrentPane { confirm = true },
+	--},
 	{
 		mods = "LEADER",
 		key = "[",
@@ -99,6 +99,7 @@ local keys = {
 		mods = "LEADER",
 		action = wezterm.action.Search "CurrentSelectionOrEmptyString"
 	},
+	-- need to find a different key for this, u get used by the unicode menu
 	{
 		key = 'u',
 		mods = 'SHIFT|CTRL',
