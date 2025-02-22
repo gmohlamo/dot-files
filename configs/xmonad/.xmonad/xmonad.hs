@@ -112,7 +112,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_p     ), spawn "exe=`rofi -show drun`")
 
     -- launch rofi-emoji
-    , ((modm .|. shiftMask, xK_p     ), spawn "exe=`rofi -modi emoji -show emoji -kb-custom-1 Ctrl+c`")
+    , ((modm .|. shiftMask, xK_p     ), spawn "exe=`rofi -show emoji`")
     -- launch lock screen
     , ((modm .|. shiftMask, xK_l     ), spawn "exe=`dm-tool lock`")
 
