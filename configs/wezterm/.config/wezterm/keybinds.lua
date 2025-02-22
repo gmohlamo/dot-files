@@ -51,7 +51,7 @@ local keys = {
 		action = wezterm.action.CloseCurrentPane { confirm = true }
 	},
 	{
-		mods = "LEADER",
+		mods = "LEADER|SHIFT",
 		key = "W",
 		action = wezterm.action.CloseCurrentTab { confirm = true }
 	},
