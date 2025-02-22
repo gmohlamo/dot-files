@@ -2,7 +2,7 @@ local wezterm = require('wezterm')
 
 return {
 	default_opts = {
-		icon = wezterm.nerdfonts.md_tab,
+		icon = wezterm.nerdfonts.dev_terminal,
 	},
 	update = function(tab)
 		local tab_title = tab.tab_title

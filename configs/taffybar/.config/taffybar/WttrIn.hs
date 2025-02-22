@@ -2,10 +2,10 @@
 
 -- | This is a simple weather widget that polls wttr.in to retrieve the weather,
 -- instead of relying on noaa data.
---
+-- 
 -- Useful if NOAA data doesn't cover your needs, or if you just like wttr.in
 -- better.
---
+-- 
 -- For more information on how to use wttr.in, see <https://wttr.in/:help>.
 module WttrIn (textWttrNew) where
 
@@ -22,11 +22,11 @@ import Network.HTTP.Client
   ( HttpException,
     Request (requestHeaders),
     Response (responseBody, responseStatus),
-    defaultManagerSettings,
     httpLbs,
     newManager,
     parseRequest,
   )
+import Network.HTTP.Client.TLS (tlsManagerSettings) -- TLS support for HTTPS
 import Network.HTTP.Types.Status (statusIsSuccessful)
 import System.Log.Logger (Priority (ERROR), logM)
 import System.Taffybar.Widget.Generic.PollingLabel (pollingLabelNew)
@@ -34,10 +34,10 @@ import Text.Regex (matchRegex, mkRegex)
 
 -- | Creates a GTK Label widget that polls the requested wttr.in url for weather
 -- information.
---
+-- 
 -- Not compatible with image endpoints and binary data, such as the %.png%
 -- endpoints.
---
+-- 
 -- > -- Yields a label with the text "London: ⛅️  +72°F". Updates every 60
 -- > -- seconds.
 -- > textWttrNew "http://wttr.in/London?format=3" 60
@@ -64,14 +64,15 @@ callWttr url =
           toStrict $ responseBody r
         )
    in do
-        manager <- newManager defaultManagerSettings
+        -- Use TLS settings for HTTPS
+        manager <- newManager tlsManagerSettings
         request <- parseRequest url
         (isOk, response) <-
           handle
             logException
             ( getResponseData
                 <$> httpLbs
-                  (request {requestHeaders = [("User-Agent", "curl")]})
+                  (request {requestHeaders = [("User-Agent", "curl")]} )
                   manager
             )
         let body = (T.strip (decodeUtf8 response))
@@ -89,3 +90,4 @@ logException e = do
     ERROR
     ("Warning: Couldn't call wttr.in. \n" ++ errmsg)
   return (False, "✨")
+
