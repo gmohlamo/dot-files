@@ -114,7 +114,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch rofi-emoji
     , ((modm .|. shiftMask, xK_p     ), spawn "exe=`rofi -show emoji`")
     -- launch lock screen
-    , ((modm .|. shiftMask, xK_l     ), spawn "exe=`dm-tool lock`")
+    , ((modm .|. shiftMask, xK_l     ), spawn "exe=`copyq show`")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
@@ -328,6 +328,7 @@ myStartupHook = do
     spawnOnce "feh --bg-fill --randomize /home/gladwin/Images/Wallpapers/* &"
     spawnOnce "xcompmgr -c &"
     spawnOnce "status-notifier-watcher &"
+    spawnOnce "/usr/bin/copyq &"
     -- spawnOnce "systemctl --user start taffybar.service"
     spawnOnce "/usr/bin/vmware-user &"
     spawnOnce "vmware-user-suid-wrapper --no--startup-id"
