@@ -67,7 +67,7 @@ main = do
       mem = pollingGraphNew memCfg 1 memCallback
       net = networkGraphNew netCfg Nothing
       tray = sniTrayNew
-      weatherWidget = textWttrNew "https://wttr.in/Sandton?format=4" 60
+      weatherWidget = textWttrNew "https://wttr.in/Wierdapark?format=2" 60
       myConfig = defaultSimpleTaffyConfig
         { startWidgets =
             workspaces :

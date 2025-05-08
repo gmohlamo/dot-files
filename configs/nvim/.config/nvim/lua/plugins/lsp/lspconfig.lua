@@ -58,7 +58,7 @@ return {
 			vim.fn.sign_define(h1, { text = icon, texth1 = h1, numh1 = "" })
 		end
 
-		mason_lspconfig.setup_handlers({
+		mason_lspconfig.setup({
 			-- default handler for installed servers
 			function(server_name)
 				lspconfig[server_name].setup({
