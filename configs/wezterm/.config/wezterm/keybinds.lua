@@ -55,6 +55,11 @@ local keys = {
 		key = "W",
 		action = wezterm.action.CloseCurrentTab { confirm = true }
 	},
+	{
+		mods = "LEADER",
+		key = "z",
+		action = wezterm.action.TogglePaneZoomState
+	},
 	-- This is a bug, but it works better than I expected
 	-- By using "A" instead of the lowercase variant, I get to skip all the way to the start of the line
 	{

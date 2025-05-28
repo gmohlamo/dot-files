@@ -30,10 +30,12 @@ import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Util.NamedScratchpad
 import XMonad.Hooks.TaffybarPagerHints
 import System.IO
 import XMonad.Hooks.EwmhDesktops (ewmh)
 import Graphics.X11.ExtraTypes.XF86
+import XMonad.Util.NamedScratchpad
 import qualified DBus as D
 import qualified DBus.Client as D
 import qualified Codec.Binary.UTF8.String as UTF8
@@ -106,6 +108,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch a terminal
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
+    , ((modm .|. controlMask, xK_Return), namedScratchpadAction scratchpads "terminal")
 
     -- launch dmenu
     -- , ((modm,               xK_p     ), spawn "exe=`dmenu_path | dmenu -fn \"Source Code Pro\"` && eval \"exec $exe\"")
@@ -373,8 +376,22 @@ defaults = def {
 
       -- hooks, layouts
         layoutHook         = myLayout,
-        manageHook         = myManageHook,
+        manageHook         = myManageHook <+> namedScratchpadManageHook scratchpads,
         handleEventHook    = myEventHook,
         logHook            = myLogHook,
         startupHook        = myStartupHook
     }
+
+scratchpads = [
+        -- run htop in xterm, find it by title, use default floating window placement
+        -- NS "htop" "xterm -e htop" (title =? "htop") defaultFloating ,
+
+        -- run stardict, find it by class name, place it in the floating window
+        -- 1/6 of screen width from the left, 1/6 of screen height
+        -- from the top, 2/3 of screen width by 2/3 of screen height
+        -- NS "stardict" "stardict" (className =? "Stardict")
+        --(customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ,
+
+        -- run gvim, find by role, don't float
+        NS "terminal" "wezterm start --class scratchpad" (className =? "scratchpad") (customFloating $ W.RationalRect (2/100) (2/100) (96/100) (96/100))
+        ] where role = stringProperty "WM_WINDOW_ROLE"
