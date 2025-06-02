@@ -52,12 +52,36 @@ return {
 		-- used to enable autocompletion (assign to every lsp server config)
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
-		-- Change the Diagnostic symbols in the sign column (gutter)
-		local signs = { Error = "💣", Warn = " ", Hint = "💡", Info = "🔍" }
-		for type, icon in pairs(signs) do
-			local h1 = "DiagnosticSign" .. type
-			vim.fn.sign_define(h1, { text = icon, texth1 = h1, numh1 = "" })
+		vim.diagnostic.config({
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = "💣",
+					[vim.diagnostic.severity.WARN] = " ",
+					[vim.diagnostic.severity.INFO] = "🔍",
+					[vim.diagnostic.severity.HINT] = "💡",
+				},
+				numhl = {
+					[vim.diagnostic.severity.ERROR] = "",
+					[vim.diagnostic.severity.WARN] = "",
+					[vim.diagnostic.severity.HINT] = "",
+					[vim.diagnostic.severity.INFO] = "",
+				},
+			},
+		})
+
+		local virt_lines_ns = vim.api.nvim_create_namespace 'on_diagnostic_jump'
+		--- @param diagnostic? vim.Diagnostic
+		--- @param bufnr integer
+		local function on_jump(diagnostic, bufnr)
+			if not diagnostic then return end
+			vim.diagnostic.show(
+				virt_lines_ns,
+				bufnr,
+				{ diagnostic },
+				{ virtual_lines = { current_line = true }, virtual_text = false }
+			)
 		end
+		vim.diagnostic.config({ jump = { on_jump = on_jump } })
 
 		mason_lspconfig.setup({
 			-- default handler for installed servers
@@ -209,6 +233,58 @@ return {
 						"config",
 					},
 					cmd = { "autotools-language-server" },
+				})
+			end,
+			["lua_ls"] = function()
+				local on_attach = function(client, bufnr)
+					-- Enable completion triggered by <c-x><c-o>
+					vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+				end
+				lspconfig["lua_ls"].setup({
+					on_attach = on_attach,
+					settings = {
+						Lua = {
+							telemetry = {
+								enable = false
+							},
+						},
+					},
+					on_init = function(client)
+						--local join = vim.fs.joinpath
+						--local path = client.workspace_folders[1].name
+
+						-- Don't do anything if there is project local config
+						--if vim.uv.fs_stat(join(path, '.luarc.json'))
+						--    or vim.uv.fs_stat(join(path, '.luarc.jsonc'))
+						--then
+						--	return
+						--end
+
+						local nvim_settings = {
+							runtime = {
+								-- Tell the language server which version of Lua you're using
+								version = 'LuaJIT',
+							},
+							diagnostics = {
+								-- Get the language server to recognize the `vim` global
+								globals = { 'vim' }
+							},
+							workspace = {
+								checkThirdParty = false,
+								library = {
+									-- Make the server aware of Neovim runtime files
+									vim.env.VIMRUNTIME,
+									vim.fn.stdpath('config'),
+								},
+							},
+						}
+
+						client.config.settings.Lua = vim.tbl_deep_extend(
+							'force',
+							client.config.settings.Lua,
+							nvim_settings
+						)
+					end,
 				})
 			end,
 		})
