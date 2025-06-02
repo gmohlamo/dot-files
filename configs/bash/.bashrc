@@ -9,7 +9,7 @@ export OSH='/home/gladwin/.oh-my-bash'
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
-OSH_THEME="powerline"
+OSH_THEME="cupcake"
 
 # Uncomment the following line to use case-sensitive completion.
 # OMB_CASE_SENSITIVE="true"
@@ -159,3 +159,4 @@ export PATH=$PATH:"/home/gladwin/.local/bin":"/home/gladwin/go/bin:/home/gladwin
 source ~/.fzfrc
 
 export GIT_EDITOR=vim
+. "$HOME/.cargo/env"

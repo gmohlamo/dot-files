@@ -393,5 +393,5 @@ scratchpads = [
         --(customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ,
 
         -- run gvim, find by role, don't float
-        NS "terminal" "wezterm start --class scratchpad" (className =? "scratchpad") (customFloating $ W.RationalRect (2/100) (2/100) (96/100) (96/100))
+        NS "terminal" "wezterm start --class scratchpad" (className =? "scratchpad") (customFloating $ W.RationalRect (2/100) (3/100) (96/100) (96/100))
         ] where role = stringProperty "WM_WINDOW_ROLE"
