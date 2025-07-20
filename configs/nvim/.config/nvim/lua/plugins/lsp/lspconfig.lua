@@ -226,13 +226,24 @@ return {
 			end,
 			["autotools_ls"] = function()
 				lspconfig["autotools_ls"].setup({
-					capabilities = capabilities,
+					capabilities = {
+						textDocument = {
+							semanticTokens = vim.NIL
+						},
+						workspace = {
+							semanticTokens = vim.NIL
+						}
+					},
 					filetypes = {
-						"make",
-						"automake",
-						"config",
+						"arduino",
 					},
 					cmd = { "autotools-language-server" },
+				})
+			end,
+			["arduino_language_server"] = function()
+				lspconfig["arduino_language_server"].setup({
+					capabilities = capabilities,
+					cmd = { "arduino-language-server" },
 				})
 			end,
 			["lua_ls"] = function()
