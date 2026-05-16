@@ -12,6 +12,7 @@ Requires=default.target
 
 
 [Service]
+WorkingDirectory=/home/gladwin/.config/taffybar
 Type=dbus
 Restart=on-failure
 RestartSec=1s

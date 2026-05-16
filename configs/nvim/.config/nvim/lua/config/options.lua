@@ -21,4 +21,4 @@ vim.g.netrw_liststyle = 3
 -- Clipboard in the default register (this beats register "+" by a mile for me)
 vim.opt.clipboard:append("unnamedplus")
 
-
+vim.g.node_host_prog = "/home/gladwin/.nvm/versions/node/v18.18.0/bin/node"

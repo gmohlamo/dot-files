@@ -81,223 +81,313 @@ return {
 				{ virtual_lines = { current_line = true }, virtual_text = false }
 			)
 		end
-		vim.diagnostic.config({ jump = { on_jump = on_jump } })
+		local html_capabilities = vim.lsp.protocol.make_client_capabilities()
+		html_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-		mason_lspconfig.setup({
-			-- default handler for installed servers
-			function(server_name)
-				lspconfig[server_name].setup({
-					capabilities = capabilities,
-				})
-			end,
-			["clangd"] = function()
-				local on_attach = function(client, bufnr)
-					-- Enable completion triggered by <c-x><c-o>
-					vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-				end
-				-- configure clangd
-				-- local nvim_lsp = require 'nvim_lsp'
-				lspconfig["clangd"].setup({
-					capabilities = capabilities,
-					filetypes = { "c", "cpp" },
-					completions = {
-						completeFunctionCalls = true,
-					},
-					on_attach = on_attach,
-				})
-			end,
-			["gopls"] = function()
-				local on_attach = function(client, bufnr)
-					-- Enable completion triggered by <c-x><c-o>
-					vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-				end
-				lspconfig["gopls"].setup({
-					capabilities = capabilities,
-					cmd = { 'gopls' },
-					filetypes = { "go", "gomod", "gowork", "gotmpl" },
-					completions = {
-						completeFunctionCalls = true,
-					},
-					on_attach = on_attach,
-				})
-			end,
-			["jedi_language_server"] = function()
-				local on_attach = function(client, bufnr)
-					-- Enable completion triggered by <c-x><c-o>
-					vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-				end
-				lspconfig["jedi_language_server"].setup({
-					capabilities = capabilities,
-					filetypes = { "python" },
-					cmd = { "jedi-language-server" },
-					completions = {
-						completeFunctionCalls = true,
-					},
-					on_attach = on_attach,
-				})
-			end,
-			["vtsls"] = function()
-				local on_attach = function(client, bufnr)
-					-- Enable completion triggered by <c-x><c-o>
-					vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-				end
-				lspconfig["vtsls"].setup({
-					cmd = { "vtsls", "--stdio" },
-					filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
-					completions = {
-						completeFunctionCalls = true,
-					},
-					single_file_support = true,
-					on_attach = on_attach,
-				})
-			end,
-			["texlab"] = function()
-				lspconfig["texlab"].setup({
-					capabilities = capabilities,
-					filetypes = { "tex", "plaintex", "bib" },
-					settings = {
-						auxDirectory = ".",
-						bibtexFormatter = "texlab",
-						build = {
-							args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-							executable = "latexmk",
-							forwardSearchAfter = false,
-							onSave = false,
-						},
-						chktex = {
-							onEdit = false,
-							onOpenAndSave = false,
-						},
-						diagnosticsDelay = 300,
-						formatterLineLength = 80,
-						forwardSearch = {
-							args = {},
-						},
-						latexFormatter = "latexindent",
-						latexindent = {
-							modifyLineBreaks = false,
-						},
-					},
-					single_file_support = true,
-				})
-			end,
-			-- ideally this should give us intellisense in latex projects...
-			-- I might need to keep testing though
-			["textlsp"] = function()
-				lspconfig["textlsp"].setup({
-					capabilities = capabilities,
-					filetypes = { "tex" },
-					cmd = { "textlsp" },
-					settings = {
-						textLSP = {
-							analysers = {
-								languagetool = {
-									check_text = {
-										on_change = false,
-										on_open = true,
-										on_save = true,
-									},
-									enabled = true,
-								},
-							},
-							documents = {
-								org = {
-									org_todo_keywords = { "TODO", "IN_PROGRESS", "DONE" },
-								},
-							},
-						},
-					},
-					single_file_support = true,
-				})
-			end,
-			["pbls"] = function()
-				local on_attach = function(client, bufnr)
-					-- Enable completion triggered by <c-x><c-o>
-					vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-				end
-				local nvim_lsp = require 'lspconfig'
-				lspconfig["pbls"].setup({
-					capabilities = capabilities,
-					on_attach = on_attach,
-					cmd = { "pbls" },
-					filetypes = { "proto" },
-					root_dir = nvim_lsp.util.root_pattern(".pbls.toml", ".git"),
-				})
-			end,
-			["autotools_ls"] = function()
-				lspconfig["autotools_ls"].setup({
-					capabilities = {
-						textDocument = {
-							semanticTokens = vim.NIL
-						},
-						workspace = {
-							semanticTokens = vim.NIL
-						}
-					},
-					filetypes = {
-						"arduino",
-					},
-					cmd = { "autotools-language-server" },
-				})
-			end,
-			["arduino_language_server"] = function()
-				lspconfig["arduino_language_server"].setup({
-					capabilities = capabilities,
-					cmd = { "arduino-language-server" },
-				})
-			end,
-			["lua_ls"] = function()
-				local on_attach = function(client, bufnr)
-					-- Enable completion triggered by <c-x><c-o>
-					vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-				end
-				lspconfig["lua_ls"].setup({
-					on_attach = on_attach,
-					settings = {
-						Lua = {
-							telemetry = {
-								enable = false
-							},
-						},
-					},
-					on_init = function(client)
-						--local join = vim.fs.joinpath
-						--local path = client.workspace_folders[1].name
-
-						-- Don't do anything if there is project local config
-						--if vim.uv.fs_stat(join(path, '.luarc.json'))
-						--    or vim.uv.fs_stat(join(path, '.luarc.jsonc'))
-						--then
-						--	return
-						--end
-
-						local nvim_settings = {
-							runtime = {
-								-- Tell the language server which version of Lua you're using
-								version = 'LuaJIT',
-							},
-							diagnostics = {
-								-- Get the language server to recognize the `vim` global
-								globals = { 'vim' }
-							},
-							workspace = {
-								checkThirdParty = false,
-								library = {
-									-- Make the server aware of Neovim runtime files
-									vim.env.VIMRUNTIME,
-									vim.fn.stdpath('config'),
-								},
-							},
-						}
-
-						client.config.settings.Lua = vim.tbl_deep_extend(
-							'force',
-							client.config.settings.Lua,
-							nvim_settings
-						)
-					end,
-				})
-			end,
+		vim.lsp.config('html', {
+			capabilities = html_capabilities,
+			cmd = { "vscode-html-language-server", "--stdio" },
+			filetypes = { "html" },
+			init_options = {
+				configurationSection = { "html", "css", "javascript" },
+				embeddedLanguages = {
+					css = true,
+					javascript = true,
+				},
+				provideFormatter = true,
+			},
+			root_markers = { "package.json", ".git" },
+			settings = {},
 		})
+		vim.lsp.config('cssls', {
+			capabilities = html_capabilities,
+			cmd = { "vscode-css-language-server", "--stdio" },
+			filetypes = { "css", "scss", "less" },
+			init_options = { provideFormatter = true },
+			root_markers = { "package.json", ".git" },
+			settings = {
+				css = {
+					validate = true
+				},
+				less = {
+					validate = true
+				},
+				scss = {
+					validate = true
+				}
+			},
+		})
+		local base_on_attach = vim.lsp.config.eslint.on_attach
+		vim.lsp.config("eslint", {
+			on_attach = function(client, bufnr)
+				if not base_on_attach then return end
+
+				base_on_attach(client, bufnr)
+				vim.api.nvim_create_autocmd("BufWritePre", {
+					buffer = bufnr,
+					command = "LspEslintFixAll",
+				})
+			end,
+			cmd = { "vscode-eslint-language-server", "--stdio" },
+			filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte", "astro", "htmlangular" },
+			handlers = {
+				['eslint/openDoc'] = function(_, result)
+					if result then
+						vim.ui.open(result.url)
+					end
+					return {}
+				end,
+				['eslint/confirmESLintExecution'] = function(_, result)
+					if not result then
+						return
+					end
+					return 4 -- approved
+				end,
+				['eslint/probeFailed'] = function()
+					vim.notify('[lspconfig] ESLint probe failed.', vim.log.levels.WARN)
+					return {}
+				end,
+				['eslint/noLibrary'] = function()
+					vim.notify('[lspconfig] Unable to find ESLint library.', vim.log.levels.WARN)
+					return {}
+				end,
+			},
+			settings = {
+				codeAction = {
+					disableRuleComment = {
+						enable = true,
+						location = "separateLine"
+					},
+					showDocumentation = {
+						enable = true
+					}
+				},
+				codeActionOnSave = {
+					enable = false,
+					mode = "all"
+				},
+				experimental = {},
+				format = true,
+				nodePath = "",
+				onIgnoredFiles = "off",
+				problems = {
+					shortenToSingleLine = false
+				},
+				quiet = false,
+				rulesCustomizations = {},
+				run = "onType",
+				useESLintClass = false,
+				validate = "on",
+				workingDirectory = {
+					mode = "auto"
+				}
+			},
+			workspace_required = true,
+		})
+		vim.diagnostic.config({ jump = { on_jump = on_jump } })
+		vim.lsp.config("tinymist", {
+			capabilities = capabilities,
+			cmd = { "tinymist" },
+			filetypes = { "typst" },
+			root_markers = { '.git' },
+			settings = {
+			},
+		})
+		vim.lsp.config("texlab", {
+			capabilities = capabilities,
+			settings = {
+				texlab = {
+					bibtexFormatter = "texlab",
+					build = {
+						args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f", "-auxdir=build" },
+						executable = "latexmk",
+						forwardSearchAfter = true,
+						onSave = true,
+						auxDirectory = "build",
+					},
+					chktex = {
+						onEdit = false,
+						onOpenAndSave = false,
+					},
+					diagnosticsDelay = 300,
+					formatterLineLength = 80,
+					forwardSearch = {
+						executable = "zathura",
+						args = { "--synctex-forward", "%l:1:%f", "%p" },
+					},
+					latexFormatter = "latexindent",
+					latexindent = {
+						modifyLineBreaks = false,
+					},
+				}
+			},
+		})
+		vim.lsp.config("clangd", {
+			on_attach = function(client, bufnr)
+				-- Enable completion triggered by <c-x><c-o>
+				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+			end,
+			capabilities = capabilities,
+			filetypes = { "c", "cpp" },
+			completions = {
+				completeFunctionCalls = true,
+			},
+		})
+		vim.lsp.config("gopls", {
+			on_attach = function(client, bufnr)
+				-- Enable completion triggered by <c-x><c-o>
+				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+			end,
+			capabilities = capabilities,
+			cmd = { 'gopls' },
+			filetypes = { "go", "gomod", "gowork", "gotmpl" },
+			completions = {
+				completeFunctionCalls = true,
+			},
+
+		})
+		vim.lsp.config("jedi_language_server", {
+			on_attach = function(client, bufnr)
+				-- Enable completion triggered by <c-x><c-o>
+				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+			end,
+			capabilities = capabilities,
+			filetypes = { "python" },
+			cmd = { "jedi-language-server" },
+			completions = {
+				completeFunctionCalls = true,
+			},
+		})
+		vim.lsp.config("vtsls", {
+			on_attach = function(client, bufnr)
+				-- Enable completion triggered by <c-x><c-o>
+				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+			end,
+			capabilities = capabilities,
+			cmd = { "vtsls", "--stdio" },
+			filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+			completions = {
+				completeFunctionCalls = true,
+			},
+			single_file_support = true,
+		})
+		local nvim_lsp = require 'lspconfig'
+		vim.lsp.config("pbls", {
+			capabilities = capabilities,
+			on_attach = function(client, bufnr)
+				-- Enable completion triggered by <c-x><c-o>
+				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+			end,
+			cmd = { "pbls" },
+			filetypes = { "proto" },
+			root_dir = nvim_lsp.util.root_pattern(".pbls.toml", ".git"),
+		})
+		vim.lsp.config("autotools_ls", {
+			--capabilities = capabilities, Not sure if this is used for this
+			on_attach = function(client, bufnr)
+				-- Enable completion triggered by <c-x><c-o>
+				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+			end,
+			filetypes = { 'config', 'automake', 'make' },
+			root_dir = function(bufnr, on_dir)
+				local util = require 'lspconfig.util'
+				local fname = vim.api.nvim_buf_get_name(bufnr)
+				on_dir(util.root_pattern(unpack({ 'configure.ac', 'Makefile', 'Makefile.am', '*.mk' }))(
+					fname))
+			end,
+			cmd = { "autotools-language-server" },
+		})
+		vim.lsp.config("arduino_language_server", {
+			filetypes = { 'arduino' },
+			root_dir = function(bufnr, on_dir)
+				local util = require 'lspconfig.util'
+				local fname = vim.api.nvim_buf_get_name(bufnr)
+				on_dir(util.root_pattern('*.ino')(fname))
+			end,
+			cmd = {
+				'arduino-language-server',
+			},
+			capabilities = {
+				textDocument = {
+					---@diagnostic disable-next-line: assign-type-mismatch
+					semanticTokens = vim.NIL,
+				},
+				workspace = {
+					---@diagnostic disable-next-line: assign-type-mismatch
+					semanticTokens = vim.NIL,
+				},
+			},
+		})
+		--variables for lua_ls
+		local luals_root_markers1 = {
+			'.emmyrc.json',
+			'.luarc.json',
+			'.luarc.jsonc',
+		}
+		local luals_root_markers2 = {
+			'.luacheckrc',
+			'.stylua.toml',
+			'stylua.toml',
+			'selene.toml',
+			'selene.yml',
+		}
+		vim.lsp.config("lua_ls", {
+			on_attach = function(client, bufnr)
+				-- Enable completion triggered by <c-x><c-o>
+				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+			end,
+			settings = {
+				Lua = {
+					telemetry = {
+						enable = false
+					},
+					codeLens = { enable = true },
+					hint = { enable = true, semicolon = 'Disable' },
+				},
+			},
+			on_init = function(client)
+				--local join = vim.fs.joinpath
+				--local path = client.workspace_folders[1].name
+
+				-- Don't do anything if there is project local config
+				--if vim.uv.fs_stat(join(path, '.luarc.json'))
+				--    or vim.uv.fs_stat(join(path, '.luarc.jsonc'))
+				--then
+				--	return
+				--end
+
+				local nvim_settings = {
+					runtime = {
+						-- Tell the language server which version of Lua you're using
+						version = 'LuaJIT',
+					},
+					diagnostics = {
+						-- Get the language server to recognize the `vim` global
+						globals = { 'vim' }
+					},
+					workspace = {
+						checkThirdParty = false,
+						library = {
+							-- Make the server aware of Neovim runtime files
+							vim.env.VIMRUNTIME,
+							vim.fn.stdpath('config'),
+						},
+					},
+				}
+
+				client.config.settings.Lua = vim.tbl_deep_extend(
+					'force',
+					client.config.settings.Lua,
+					nvim_settings
+				)
+			end,
+			cmd = { 'lua-language-server' },
+			filetypes = { 'lua' },
+			root_markers = vim.fn.has('nvim-0.11.3') == 1 and
+			    { luals_root_markers1, luals_root_markers2, { '.git' } }
+			    or vim.list_extend(vim.list_extend(luals_root_markers1, luals_root_markers2), { '.git' }),
+			---@type lspconfig.settings.lua_ls
+		})
+		mason_lspconfig.setup({})
 	end,
 }

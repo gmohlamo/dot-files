@@ -1,7 +1,19 @@
 local wezterm = require 'wezterm'
 local config = {}
 
-config.font = wezterm.font 'JetBrains Mono'
+config.font = wezterm.font { family = 'JetBrains Mono' }
+config.font_rules = {
+	{
+		intensity = "Bold",
+		italic = false,
+		font = wezterm.font("JetBrains Mono", { weight = "Bold", stretch = "Normal", style = "Normal" }),
+	},
+	{
+		intensity = "Bold",
+		italic = true,
+		font = wezterm.font("JetBrains Mono", { weight = "Bold", stretch = "Normal", style = "Italic" }),
+	},
+}
 config.tab_bar_at_bottom = true
 config.hide_tab_bar_if_only_one_tab = false
 config.tab_and_split_indices_are_zero_based = true

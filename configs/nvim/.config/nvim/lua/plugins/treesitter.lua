@@ -31,6 +31,7 @@ return {
 				"lua",
 				"vim",
 				"yaml",
+				"typst",
 			},
 		})
 	end,
