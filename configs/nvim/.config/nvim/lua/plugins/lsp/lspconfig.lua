@@ -83,7 +83,7 @@ return {
 		end
 		local html_capabilities = vim.lsp.protocol.make_client_capabilities()
 		html_capabilities.textDocument.completion.completionItem.snippetSupport = true
-
+		-- local util = require 'lspconfig.util'
 		vim.lsp.config('html', {
 			capabilities = html_capabilities,
 			cmd = { "vscode-html-language-server", "--stdio" },
@@ -101,20 +101,18 @@ return {
 		})
 		vim.lsp.config('cssls', {
 			capabilities = html_capabilities,
-			cmd = { "vscode-css-language-server", "--stdio" },
-			filetypes = { "css", "scss", "less" },
-			init_options = { provideFormatter = true },
+			cmd = { 'vscode-css-language-server', '--stdio' },
+			filetypes = { 'css', 'scss', 'less' },
+			init_options = {
+				configurationSection = { "css" },
+				provideFormatter = true,
+			}, -- needed to enable formatting capabilities
+			single_file_support = true,
 			root_markers = { "package.json", ".git" },
 			settings = {
-				css = {
-					validate = true
-				},
-				less = {
-					validate = true
-				},
-				scss = {
-					validate = true
-				}
+				css = { validate = true },
+				scss = { validate = true },
+				less = { validate = true },
 			},
 		})
 		local base_on_attach = vim.lsp.config.eslint.on_attach
@@ -225,7 +223,8 @@ return {
 		vim.lsp.config("clangd", {
 			on_attach = function(client, bufnr)
 				-- Enable completion triggered by <c-x><c-o>
-				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+				_ = client
+				vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 			end,
 			capabilities = capabilities,
 			filetypes = { "c", "cpp" },
@@ -236,7 +235,8 @@ return {
 		vim.lsp.config("gopls", {
 			on_attach = function(client, bufnr)
 				-- Enable completion triggered by <c-x><c-o>
-				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+				_ = client
+				vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 			end,
 			capabilities = capabilities,
 			cmd = { 'gopls' },
@@ -249,7 +249,8 @@ return {
 		vim.lsp.config("jedi_language_server", {
 			on_attach = function(client, bufnr)
 				-- Enable completion triggered by <c-x><c-o>
-				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+				_ = client
+				vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 			end,
 			capabilities = capabilities,
 			filetypes = { "python" },
@@ -261,11 +262,46 @@ return {
 		vim.lsp.config("vtsls", {
 			on_attach = function(client, bufnr)
 				-- Enable completion triggered by <c-x><c-o>
-				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+				_ = client
+				vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
+			end,
+			init_options = {
+				hostInfo = 'neovim',
+			},
+			filetypes = {
+				'javascript',
+				'javascriptreact',
+				'typescript',
+				'typescriptreact',
+			},
+			root_dir = function(bufnr, on_dir)
+				-- The project root is where the LSP can be started from
+				-- As stated in the documentation above, this LSP supports monorepos and simple projects.
+				-- We select then from the project root, which is identified by the presence of a package
+				-- manager lock file.
+				local root_markers = { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb',
+					'bun.lock' }
+				-- Give the root markers equal priority by wrapping them in a table
+				root_markers = vim.fn.has('nvim-0.11.3') == 1 and { root_markers, { '.git' } }
+				    or vim.list_extend(root_markers, { '.git' })
+				-- exclude deno
+				local deno_root = vim.fs.root(bufnr, { 'deno.json', 'deno.jsonc' })
+				local deno_lock_root = vim.fs.root(bufnr, { 'deno.lock' })
+				local project_root = vim.fs.root(bufnr, root_markers)
+				if deno_lock_root and (not project_root or #deno_lock_root > #project_root) then
+					-- deno lock is closer than package manager lock, abort
+					return
+				end
+				if deno_root and (not project_root or #deno_root >= #project_root) then
+					-- deno config is closer than or equal to package manager lock, abort
+					return
+				end
+				-- project is standard TS, not deno
+				-- We fallback to the current working directory if no project root is found
+				on_dir(project_root or vim.fn.getcwd())
 			end,
 			capabilities = capabilities,
 			cmd = { "vtsls", "--stdio" },
-			filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
 			completions = {
 				completeFunctionCalls = true,
 			},
@@ -276,7 +312,8 @@ return {
 			capabilities = capabilities,
 			on_attach = function(client, bufnr)
 				-- Enable completion triggered by <c-x><c-o>
-				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+				_ = client
+				vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 			end,
 			cmd = { "pbls" },
 			filetypes = { "proto" },
@@ -286,7 +323,8 @@ return {
 			--capabilities = capabilities, Not sure if this is used for this
 			on_attach = function(client, bufnr)
 				-- Enable completion triggered by <c-x><c-o>
-				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+				_ = client
+				vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 			end,
 			filetypes = { 'config', 'automake', 'make' },
 			root_dir = function(bufnr, on_dir)
@@ -334,7 +372,8 @@ return {
 		vim.lsp.config("lua_ls", {
 			on_attach = function(client, bufnr)
 				-- Enable completion triggered by <c-x><c-o>
-				vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+				_ = client
+				vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 			end,
 			settings = {
 				Lua = {
